@@ -9,6 +9,7 @@ const initalState = {
   status: "loading",
   currentStep: 0,
   points: 0,
+  answer: null,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -22,6 +23,15 @@ const reducer = (state, action) => {
       return {
         ...state,
         status: "ready",
+      };
+    case "check":
+      return {
+        ...state,
+        answer: action.payload,
+        points:
+          action.payload === state.questions[state.currentStep].correctOption
+            ? state.points + state.questions[state.currentStep].points
+            : state.points,
       };
     case "failed":
       return { ...state, status: "failed" };
@@ -53,7 +63,11 @@ function App() {
           />
         )}
         {state.status === "ready" && (
-          <Question currentQuestion={state.questions[0]} dispatch={dispatch} />
+          <Question
+            currentQuestion={state.questions[0]}
+            givenAnswer={state.answer}
+            dispatch={dispatch}
+          />
         )}
       </div>
     </>
