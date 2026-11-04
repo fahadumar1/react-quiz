@@ -33,6 +33,12 @@ const reducer = (state, action) => {
             ? state.points + state.questions[state.currentStep].points
             : state.points,
       };
+    case "nextQuestion":
+      return {
+        ...state,
+        answer: null,
+        currentStep: state.currentStep + 1,
+      };
     case "failed":
       return { ...state, status: "failed" };
     default:
@@ -64,11 +70,23 @@ function App() {
         )}
         {state.status === "ready" && (
           <Question
-            currentQuestion={state.questions[0]}
+            currentQuestion={state.questions[state.currentStep]}
             givenAnswer={state.answer}
             dispatch={dispatch}
           />
         )}
+        <div className="">
+          {state.answer !== null ? (
+            <button
+              className="btn btn-ui"
+              onClick={() => dispatch({ type: "nextQuestion" })}
+            >
+              Next
+            </button>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </>
   );
