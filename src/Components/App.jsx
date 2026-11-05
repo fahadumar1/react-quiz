@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import Question from "./Question";
 import Progress from "./Progress";
 import Result from "./Result";
+import Footer from "./Footer";
 const initalState = {
   questions: [],
   status: "loading",
@@ -104,27 +105,12 @@ function App() {
                 givenAnswer={state.answer}
                 dispatch={dispatch}
               />
-              <div className="">
-                {state.answer !== null ? (
-                  state.currentStep < state.totalQuestions - 1 ? (
-                    <button
-                      className="btn btn-ui"
-                      onClick={() => dispatch({ type: "nextQuestion" })}
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-ui"
-                      onClick={() => dispatch({ type: "finished" })}
-                    >
-                      Show Result
-                    </button>
-                  )
-                ) : (
-                  ""
-                )}
-              </div>
+              <Footer
+                answer={state.answer}
+                currentStep={state.currentStep}
+                totalQuestions={state.totalQuestions}
+                dispatch={dispatch}
+              />
             </>
           )}
         {state.status === "finished" && (
