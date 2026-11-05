@@ -13,7 +13,6 @@ const initalState = {
   currentStep: 0,
   points: 0,
   answer: null,
-  totalQuestions: 0,
   highestscore: 0,
 };
 const reducer = (state, action) => {
@@ -23,7 +22,6 @@ const reducer = (state, action) => {
         ...state,
         questions: action.payload,
         status: "received",
-        totalQuestions: state.questions.length,
       };
     case "ready":
       return {
@@ -66,6 +64,7 @@ const reducer = (state, action) => {
 };
 function App() {
   const [state, dispatch] = useReducer(reducer, initalState);
+  const totalQuestions = state.questions.length;
   useEffect(() => {
     fetch(`http://localhost:8000/questions`)
       .then((res) => {
@@ -82,37 +81,33 @@ function App() {
         {state.status === "loading" && <Loader />}
         {state.status === "failed" && <Error />}
         {state.status === "received" && (
-          <StarterScreen
-            totalQuestions={state.totalQuestions}
-            dispatch={dispatch}
-          />
+          <StarterScreen totalQuestions={totalQuestions} dispatch={dispatch} />
         )}
-        {state.status === "ready" &&
-          state.currentStep < state.totalQuestions && (
-            <>
-              <Progress
-                totalQuestions={state.totalQuestions}
-                currentQuestion={state.currentStep + 1}
-                totalPoints={state.questions.reduce(
-                  (acc, curr) => acc + curr.points,
-                  0,
-                )}
-                earnedPoints={state.points}
-                hasAnswered={state.answer}
-              />
-              <Question
-                currentQuestion={state.questions[state.currentStep]}
-                givenAnswer={state.answer}
-                dispatch={dispatch}
-              />
-              <Footer
-                answer={state.answer}
-                currentStep={state.currentStep}
-                totalQuestions={state.totalQuestions}
-                dispatch={dispatch}
-              />
-            </>
-          )}
+        {state.status === "ready" && state.currentStep < totalQuestions && (
+          <>
+            <Progress
+              totalQuestions={totalQuestions}
+              currentQuestion={state.currentStep + 1}
+              totalPoints={state.questions.reduce(
+                (acc, curr) => acc + curr.points,
+                0,
+              )}
+              earnedPoints={state.points}
+              hasAnswered={state.answer}
+            />
+            <Question
+              currentQuestion={state.questions[state.currentStep]}
+              givenAnswer={state.answer}
+              dispatch={dispatch}
+            />
+            <Footer
+              answer={state.answer}
+              currentStep={state.currentStep}
+              totalQuestions={totalQuestions}
+              dispatch={dispatch}
+            />
+          </>
+        )}
         {state.status === "finished" && (
           <Result
             totalPoints={state.questions.reduce(
