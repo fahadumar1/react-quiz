@@ -4,6 +4,7 @@ import StarterScreen from "./StarterScreen";
 import Error from "./Error";
 import Loader from "./Loader";
 import Question from "./Question";
+import Progress from "./Progress";
 const initalState = {
   questions: [],
   status: "loading",
@@ -69,24 +70,36 @@ function App() {
           />
         )}
         {state.status === "ready" && (
-          <Question
-            currentQuestion={state.questions[state.currentStep]}
-            givenAnswer={state.answer}
-            dispatch={dispatch}
-          />
+          <>
+            <Progress
+              totalQuestions={state.questions.length}
+              currentQuestion={state.currentStep + 1}
+              totalPoints={state.questions.reduce(
+                (acc, curr) => acc + curr.points,
+                0,
+              )}
+              earnedPoints={state.points}
+              hasAnswered={state.answer}
+            />
+            <Question
+              currentQuestion={state.questions[state.currentStep]}
+              givenAnswer={state.answer}
+              dispatch={dispatch}
+            />
+            <div className="">
+              {state.answer !== null ? (
+                <button
+                  className="btn btn-ui"
+                  onClick={() => dispatch({ type: "nextQuestion" })}
+                >
+                  Next
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </>
         )}
-        <div className="">
-          {state.answer !== null ? (
-            <button
-              className="btn btn-ui"
-              onClick={() => dispatch({ type: "nextQuestion" })}
-            >
-              Next
-            </button>
-          ) : (
-            ""
-          )}
-        </div>
       </div>
     </>
   );
