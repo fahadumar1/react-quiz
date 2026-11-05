@@ -7,14 +7,16 @@ import Question from "./Question";
 import Progress from "./Progress";
 import Result from "./Result";
 import Footer from "./Footer";
+const SECS_PER_QUESTIONS = 30;
 const initalState = {
   questions: [],
   status: "loading",
   currentStep: 0,
   points: 0,
   answer: null,
-  totalQuestions: 0,
+  totalQuestions: 15,
   highestscore: 0,
+  remainingSeconds: null,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,12 +25,12 @@ const reducer = (state, action) => {
         ...state,
         questions: action.payload,
         status: "received",
-        totalQuestions: state.questions.length,
       };
     case "ready":
       return {
         ...state,
         status: "ready",
+        remainingSeconds: state.totalQuestions * SECS_PER_QUESTIONS,
       };
     case "check":
       return {
@@ -52,9 +54,15 @@ const reducer = (state, action) => {
         highestscore:
           state.highestscore > state.points ? state.highestscore : state.points,
       };
+    case "tick":
+      return {
+        ...state,
+        remainingSeconds: state.remainingSeconds - 1,
+        status: state.remainingSeconds === 0 ? "finished" : state.status,
+      };
     case "reset":
       return {
-        initalState,
+        ...initalState,
         questions: state.questions,
         status: "ready",
       };
@@ -110,6 +118,7 @@ function App() {
                 currentStep={state.currentStep}
                 totalQuestions={state.totalQuestions}
                 dispatch={dispatch}
+                remainingSeconds={state.remainingSeconds}
               />
             </>
           )}

@@ -1,8 +1,14 @@
 import Timer from "./Timer";
-const Footer = ({ answer, currentStep, totalQuestions, dispatch }) => {
+const Footer = ({
+  answer,
+  currentStep,
+  totalQuestions,
+  remainingSeconds,
+  dispatch,
+}) => {
   return (
     <footer className="">
-      <Timer />
+      <Timer remainingSeconds={remainingSeconds} dispatch={dispatch} />
       {answer !== null ? (
         currentStep < totalQuestions - 1 ? (
           <button
