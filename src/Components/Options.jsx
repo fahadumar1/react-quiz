@@ -3,7 +3,6 @@ const Options = ({
   dispatch,
   givenAnswer,
 }) => {
-  console.log(givenAnswer, correctOption);
   return (
     <div className="options">
       {options.map((curr, i) => {
