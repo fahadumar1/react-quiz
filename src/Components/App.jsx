@@ -53,10 +53,8 @@ const reducer = (state, action) => {
       };
     case "reset":
       return {
-        ...state,
-        currentStep: 0,
-        points: 0,
-        answer: null,
+        initalState,
+        questions: state.questions,
         status: "ready",
       };
     case "failed":
