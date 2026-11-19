@@ -1,11 +1,8 @@
+import { useQuizProvider } from "../context/QuizContext";
 import Timer from "./Timer";
-const Footer = ({
-  answer,
-  currentStep,
-  totalQuestions,
-  remainingSeconds,
-  dispatch,
-}) => {
+const Footer = () => {
+  const { answer, currentStep, totalQuestions, remainingSeconds, dispatch } =
+    useQuizProvider();
   return (
     <footer className="">
       <Timer remainingSeconds={remainingSeconds} dispatch={dispatch} />

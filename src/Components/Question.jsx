@@ -1,6 +1,8 @@
+import { useQuizProvider } from "../context/QuizContext";
 import Options from "./Options";
 
-const Question = ({ currentQuestion, givenAnswer, dispatch }) => {
+const Question = () => {
+  const { currentQuestion, dispatch, answer: givenAnswer } = useQuizProvider();
   return (
     <div>
       <h4> {currentQuestion.question} </h4>
