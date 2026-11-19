@@ -1,11 +1,10 @@
 import { useQuizProvider } from "../context/QuizContext";
 import Timer from "./Timer";
 const Footer = () => {
-  const { answer, currentStep, totalQuestions, remainingSeconds, dispatch } =
-    useQuizProvider();
+  const { answer, currentStep, totalQuestions, dispatch } = useQuizProvider();
   return (
     <footer className="">
-      <Timer remainingSeconds={remainingSeconds} dispatch={dispatch} />
+      <Timer />
       {answer !== null ? (
         currentStep < totalQuestions - 1 ? (
           <button

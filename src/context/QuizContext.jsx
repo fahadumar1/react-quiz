@@ -8,7 +8,7 @@ const initalState = {
   points: 0,
   answer: null,
   highestscore: 0,
-  remainingSeconds: null,
+  remainingSeconds: 0,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -22,7 +22,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         status: "ready",
-        remainingSeconds: state.totalQuestions * SECS_PER_QUESTIONS,
+        remainingSeconds: Number(state.questions.length) * SECS_PER_QUESTIONS,
       };
     case "check":
       return {
@@ -65,13 +65,13 @@ const reducer = (state, action) => {
   }
 };
 const QuizContext = createContext();
-const QuizProvider = ({ childern }) => {
+const QuizProvider = ({ children }) => {
   const [
     { status, questions, currentStep, points, answer, remainingSeconds },
     dispatch,
   ] = useReducer(reducer, initalState);
   const totalQuestions = questions.length;
-  const currentQuestion = currentStep + 1;
+  const currentQuestion = questions[currentStep];
   const totalPoints = questions.reduce((acc, curr) => acc + curr.points, 0);
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -99,7 +99,7 @@ const QuizProvider = ({ childern }) => {
         dispatch,
       }}
     >
-      {childern}
+      {children}
     </QuizContext.Provider>
   );
 };

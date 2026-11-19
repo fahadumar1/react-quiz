@@ -3,7 +3,7 @@ import { useQuizProvider } from "../context/QuizContext";
 const Progress = () => {
   const {
     totalQuestions,
-    currentQuestion,
+    currentStep,
     totalPoints,
     points: earnedPoints,
     answer: hasAnswered,
@@ -12,10 +12,10 @@ const Progress = () => {
     <header className="progress">
       <progress
         max={totalQuestions}
-        value={currentQuestion - 1 + Number(hasAnswered !== null)}
+        value={currentStep + 1 + Number(hasAnswered !== null)}
       />
       <p>
-        Question <strong>{currentQuestion}</strong> / {totalQuestions}
+        Question <strong>{currentStep + 1}</strong> / {totalQuestions}
       </p>
       <p>
         <strong>{earnedPoints}</strong> /{totalPoints} points
