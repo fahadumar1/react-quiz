@@ -12,7 +12,7 @@ const Progress = () => {
     <header className="progress">
       <progress
         max={totalQuestions}
-        value={currentStep + 1 + Number(hasAnswered !== null)}
+        value={currentStep + Number(hasAnswered !== null)}
       />
       <p>
         Question <strong>{currentStep + 1}</strong> / {totalQuestions}

@@ -56,6 +56,8 @@ const reducer = (state, action) => {
       return {
         ...initalState,
         questions: state.questions,
+        remainingSeconds: Number(state.questions.length) * SECS_PER_QUESTIONS,
+        highestscore: state.highestscore,
         status: "ready",
       };
     case "failed":
@@ -67,7 +69,15 @@ const reducer = (state, action) => {
 const QuizContext = createContext();
 const QuizProvider = ({ children }) => {
   const [
-    { status, questions, currentStep, points, answer, remainingSeconds },
+    {
+      status,
+      questions,
+      currentStep,
+      points,
+      highestscore,
+      answer,
+      remainingSeconds,
+    },
     dispatch,
   ] = useReducer(reducer, initalState);
   const totalQuestions = questions.length;
@@ -95,6 +105,7 @@ const QuizProvider = ({ children }) => {
         currentQuestion,
         points,
         answer,
+        highestscore,
         remainingSeconds,
         dispatch,
       }}

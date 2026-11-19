@@ -1,4 +1,12 @@
-const Result = ({ earnedPoints, totalPoints, highestscore, dispatch }) => {
+import { useQuizProvider } from "../context/QuizContext";
+
+const Result = () => {
+  const {
+    points: earnedPoints,
+    totalPoints,
+    highestscore,
+    dispatch,
+  } = useQuizProvider();
   const percentage = (earnedPoints / totalPoints) * 100;
   return (
     <>
